@@ -15,6 +15,16 @@ class Trainer < ActiveRecord::Base
         choice
     end
 
+    def battle!
+        available_list = Trainer.all.select{|t| t != self}
+        rival = available_list.sample
+        rival.pick_pokemon
+        user_pokemon = Pokemon.all.find{|p| p.trainer_id == self.id}
+        rival_pokemon = Pokemon.all.find{|p| p.trainer_id == rival.id}
+        Battle.new(pokemon_1: user_pokemon, pokemon_2: rival_pokemon)
+        rival_pokemon.trainer_id = nil
+    end
+
     def retire
         self.delete
     end

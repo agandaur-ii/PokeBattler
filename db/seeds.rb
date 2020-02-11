@@ -1,4 +1,5 @@
-require_relative 'config/environment.rb'
+Trainer.delete_all
+Pokemon.delete_all
 
 ash = Trainer.create(name: "Ash")
 misty = Trainer.create(name: "Misty")
@@ -21,5 +22,4 @@ glaceon = Pokemon.create(name: "Glaceon", hp: 270, attack: 48, speed: 65)
 leafeon = Pokemon.create(name: "Leafeon", hp: 260, attack: 43, speed: 95)
 sylveon = Pokemon.create(name: "Sylveon", hp: 290, attack: 44, speed: 60)
 
-Trainer.delete_all
-Pokemon.delete_all
+binding.pry
