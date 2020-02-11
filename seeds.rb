@@ -7,6 +7,7 @@ gary = Trainer.new(name: "Gary")
 red = Trainer.new(name: "Red")
 blue = Trainer.new(name: "Blue")
 
+
 eevee = Pokemon.new(name: "Eevee", hp: , attack: , speed: )
 flareon = Pokemon.new(name: "Flareon", hp: , attack: , speed: )
 jolteon = Pokemon.new(name: "Jolteon", hp: , attack: , speed: )
