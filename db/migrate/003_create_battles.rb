@@ -1,9 +1,9 @@
 class CreateBattles < ActiveRecord::Migration[5.0]
     def change
         create_table :battles do |t|
-            t.string :pokemon_1
-            t.string :pokemon_2
-            t.string :winning_pokemon
+            t.integer :pokemon_1_id
+            t.integer :pokemon_2_id
+            t.integer :winning_pokemon_id
         end
     end
 end

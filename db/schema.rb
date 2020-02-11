@@ -13,9 +13,9 @@
 ActiveRecord::Schema.define(version: 3) do
 
   create_table "battles", force: :cascade do |t|
-    t.string "pokemon_1"
-    t.string "pokemon_2"
-    t.string "winning_pokemon"
+    t.integer "pokemon_1_id"
+    t.integer "pokemon_2_id"
+    t.integer "winning_pokemon_id"
   end
 
   create_table "pokemons", force: :cascade do |t|

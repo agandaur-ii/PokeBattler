@@ -5,7 +5,7 @@ class Battle < ActiveRecord::Base
     def who_goes_first?
         @player_one = nil
         @player_two = nil
-        list = [@pokemon_1, @pokemon_2]
+        list = [self.pokemon_1, self.pokemon_2]
 
         if @pokemon_1_temp_speed == @pokemon_2_temp_speed
             @player_one = list.delete(list.sample)
@@ -13,11 +13,11 @@ class Battle < ActiveRecord::Base
         end
 
         if @pokemon_1_temp_speed > @pokemon_2_temp_speed
-            @player_one = @pokemon_1
-            @player_two = @pokemon_2
+            @player_one = self.pokemon_1
+            @player_two = self.pokemon_2
         else
-            @player_one = @pokemon_2
-            @player_two = @pokemon_1
+            @player_one = self.pokemon_2
+            @player_two = self.pokemon_1
         end
     end
 
@@ -55,9 +55,9 @@ class Battle < ActiveRecord::Base
         end
 
         if @pokemon_1_temp_hp <= 0 
-            winner = @pokemon_2
+            winner = self.pokemon_2
         else
-            winner = @pokemon_1
+            winner = self.pokemon_1
         end
     end
 
