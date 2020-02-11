@@ -21,9 +21,15 @@ class Trainer < ActiveRecord::Base
         rival.pick_pokemon
         user_pokemon = Pokemon.all.find{|p| p.trainer_id == self.id}
         rival_pokemon = Pokemon.all.find{|p| p.trainer_id == rival.id}
-        battle = Battle.new(pokemon_1: user_pokemon, pokemon_2: rival_pokemon)
-        battle.start
+        battle = Battle.create(pokemon_1: user_pokemon, pokemon_2: rival_pokemon, winning_pokemon: 0)
+        binding.pry
+        result = battle.start
         rival_pokemon.trainer_id = nil
+        if result.trainer_id == self.id
+            puts "You won!"
+        else
+            puts "You lost."
+        end
     end
 
     def retire

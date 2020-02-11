@@ -22,6 +22,7 @@ class Battle < ActiveRecord::Base
     end
 
     def attack(player_num)
+        puts "attack!"
         if player_num == @pokemon_1
             @pokemon_2_temp_hp -= @pokemon_1_temp_attack
         else
@@ -35,9 +36,11 @@ class Battle < ActiveRecord::Base
 
     def turn(player_num)
         #attack or boost?
+        attack
     end
 
     def start
+        binding.pry
         @pokemon_1_temp_hp = @pokemon_1.hp
         @pokemon_1_temp_attack = @pokemon_1.attack
         @pokemon_1_temp_speed = @pokemon_1.speed
@@ -45,10 +48,16 @@ class Battle < ActiveRecord::Base
         @pokemon_2_temp_attack = @pokemon_2.attack
         @pokemon_2_temp_speed = @pokemon_2.speed
 
-        until @pokemon_1_temp_hp == 0 || @pokemon_2_temp_hp == 0 do 
+        until @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0 do 
           who_goes_first?
           turn(@player_one)
           turn(@player_two)
+        end
+
+        if @pokemon_1_temp_hp <= 0 
+            winner = @pokemon_2
+        else
+            winner = @pokemon_1
         end
     end
 

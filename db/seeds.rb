@@ -1,5 +1,6 @@
-Trainer.delete_all
-Pokemon.delete_all
+#Trainer.delete_all
+#Pokemon.delete_all
+#Battle.delete_all
 
 ash = Trainer.create(name: "Ash")
 misty = Trainer.create(name: "Misty")
@@ -21,5 +22,7 @@ umbreon = Pokemon.create(name: "Umbreon", hp: 335, attack: 31, speed: 65)
 glaceon = Pokemon.create(name: "Glaceon", hp: 270, attack: 48, speed: 65)
 leafeon = Pokemon.create(name: "Leafeon", hp: 260, attack: 43, speed: 95)
 sylveon = Pokemon.create(name: "Sylveon", hp: 290, attack: 44, speed: 60)
+
+ash.pick_pokemon
 
 binding.pry
