@@ -14,4 +14,8 @@ class Trainer < ActiveRecord::Base
         choice.save
         choice
     end
+
+    def retire
+        self.delete
+    end
 end
