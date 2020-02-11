@@ -21,8 +21,31 @@ class Battle < ActiveRecord::Base
         end
     end
 
-    def start
+    def attack
 
+    end
+
+    def boost
+        puts "Your pokemon feels stronger!"
+    end
+
+    def turn(player)
+        #attack or boost?
+    end
+
+    def start
+        pokemon_1_temp_hp = @pokemon_1.hp
+        #pokemon_1_temp_attack = @pokemon_1.attack
+        #pokemon_1_temp_speed = @pokemon_1.speed
+        pokemon_2_temp_hp = @pokemon_2.hp
+        #pokemon_2_temp_attack = @pokemon_2.attack
+        #pokemon_2_temp_speed = @pokemon_2.speed
+
+        until pokemon_1_temp_hp == 0 || pokemon_2_temp_hp == 0 do 
+          who_goes_first?
+          turn(@player_one)
+          turn(@player_two)
+        end
     end
 
 end
