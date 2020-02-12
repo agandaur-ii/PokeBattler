@@ -20,8 +20,8 @@ class CommandLineInterface
         input = prompt.select("Get Pokemon or Exit?", %w(Pokemon Exit))
         if input == "Pokemon"
             @user.pick_pokemon
-        else
-            exit
+        elsif input == "Exit"
+            return exit
         end
         main_menu
     end
@@ -38,8 +38,8 @@ class CommandLineInterface
             battle
         elsif input == "Stats"
             stats 
-        else
-            exit
+        elsif input == "Exit"
+            return exit
         end
 
     end
@@ -51,33 +51,44 @@ class CommandLineInterface
         if input == "Main_Menu"
             main_menu
         elsif input == "Wins"
-            @user.wins
+            puts @user.wins
+            stats
         elsif input == "Losses"
-            @user.losses
+             puts @user.losses
+             stats
         elsif input == "Win_Rate"
-            @user.win_rate
+            puts @user.win_rate
+            stats
         elsif input == "Pokemon_Used"
-            @user.pokemon_used
+            puts @user.pokemon_used
+            stats
         elsif input == "Trainers_Battled"
-            @user.trainers_battled
+            puts @user.trainers_battled
+            stats
         elsif input == "Arch_Rival"
-            @user.arch_rival
-        elsif input == "Favorite Pokemon"
-            @user.fav_pokemon
-        elsif input == "Not You Again"
-            @user.not_you_again
+            puts @user.arch_rival
+            stats
+        elsif input == "Favorite_Pokemon"
+            puts @user.fav_pokemon
+            stats
+        elsif input == "Not_You_Again"
+            puts @user.not_you_again
+            stats
         elsif input == "Best_Trainer"
             Trainer.the_best
+            stats
         elsif input == "Worst_Trainer"
             Trainer.the_worst
+            stats
         elsif input == "Best_Pokemon"
             Pokemon.the_best
+            stats
         elsif input == "Worst_Pokemon"
             Pokemon.the_worst
-        else
-            exit
+            stats
+        elsif input == "Exit"
+           return exit
         end
-        stats
     end
 
     def battle
@@ -86,8 +97,7 @@ class CommandLineInterface
     end
 
     def exit
-        puts "Thanks for using PokeBattler!"
-        return
+        return "Thanks for using PokeBattler!"
     end
 
     def run

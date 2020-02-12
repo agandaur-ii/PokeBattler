@@ -116,7 +116,7 @@ class Trainer < ActiveRecord::Base
         end
 
         if rivals.keys.length == 1
-            puts "Your rival is #{rivals.keys[0]}"
+            "Your rival is #{rivals.keys[0]}"
         else
             puts "You have many rivals!"
             rivals.keys.each{|rival| puts "#{rival}"}
@@ -143,9 +143,9 @@ class Trainer < ActiveRecord::Base
         end
 
         if fav.keys.length == 1
-            puts "#{fav.keys[0]} is your favorite Pokemon!"
+            "#{fav.keys[0]} is your favorite Pokemon!"
         else
-            puts "All of these Pokemon are your favorite!"
+           puts "All of these Pokemon are your favorite!"
             fav.keys.each{|fav| puts "#{fav}"}
         end
     end
@@ -170,7 +170,7 @@ class Trainer < ActiveRecord::Base
         end
 
         if rivals.keys.length == 1
-            puts "#{rivals.keys[0]} has beaten you the most"
+            "#{rivals.keys[0]} has beaten you the most"
         else
             puts "All these Pokemon have given you the beat down!"
             rivals.keys.each{|rival| puts "#{rival}"}
@@ -212,9 +212,9 @@ class Trainer < ActiveRecord::Base
         end
 
         if best.keys.length == 0
-            puts "There is no best trainer yet"
+            "There is no best trainer yet"
         elsif best.keys.length == 1
-            puts "#{best.keys[0]} is the best trainer!"
+            "#{best.keys[0]} is the best trainer!"
         else
             puts "These are all the best trainers:"
             best.keys.each{|b| puts "#{b}"}
