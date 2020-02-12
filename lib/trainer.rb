@@ -71,6 +71,28 @@ class Trainer < ActiveRecord::Base
 
     def arch_rival
         #trainer you have lost to the most
+        loss_list_ids = loss_instances.map{|l| l.winning_trainer_id}
+        loss_list = loss_list_ids.map{|l| Trainer.find(l)}.map{|trainer| trainer.name}
+        total = []
+        total << loss_list
+        flat = total.flatten
+        trainer_count = Hash.new(0)
+        flat.each {|trainer_name| trainer_count[trainer_name] += 1}
+        max_value = trainer_count.map{|k,v| v}.sort.last
+        rivals = trainer_count.select do |k,v|
+            if v == max_value
+                k
+            end
+        end
+
+        if rivals.keys.length == nil
+            puts "You have no rival yet!"
+        elsif rivals.keys.length == 1
+            puts "Your rival is #{rivals[0]}"
+        else
+            puts "You have many rivals!"
+            rivals.keys.each{|rival| puts "#{rival}"}
+        end
     end
 
     def fav_pokemon
