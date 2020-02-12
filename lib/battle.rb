@@ -1,11 +1,19 @@
 class Battle < ActiveRecord::Base
+
+    attr_accessor :id_one, :id_two
     has_many :trainers, through: :pokemons
     has_many :pokemons
+
+    #pmon_1 = Pokemon.find(self.id_one)
+    #pmon_2 = Pokemon.find(self.id_two)
+
+    #@@user_mon = pmon_1
+    #@@rival_mon = pmon_2
 
     def who_goes_first?
         @player_one = nil
         @player_two = nil
-        list = [self.pokemon_1, self.pokemon_2]
+        list = [@@user_mon, @@rival_mon]
 
         if @pokemon_1_temp_speed == @pokemon_2_temp_speed
             @player_one = list.delete(list.sample)
@@ -13,17 +21,17 @@ class Battle < ActiveRecord::Base
         end
 
         if @pokemon_1_temp_speed > @pokemon_2_temp_speed
-            @player_one = self.pokemon_1
-            @player_two = self.pokemon_2
+            @player_one = @@user_mon
+            @player_two = @@rival_mon
         else
-            @player_one = self.pokemon_2
-            @player_two = self.pokemon_1
+            @player_one = @@rival_mon
+            @player_two = @@user_mon
         end
     end
 
     def attack(player_num)
         puts "attack!"
-        if player_num == @pokemon_1
+        if player_num == @@user_mon
             @pokemon_2_temp_hp -= @pokemon_1_temp_attack
         else
             @pokemon_1_temp_hp -= @pokemon_2_temp_attack
@@ -36,17 +44,23 @@ class Battle < ActiveRecord::Base
 
     def turn(player_num)
         #attack or boost?
-        attack
+        attack(player_num)
     end
 
     def start
-        binding.pry
-        @pokemon_1_temp_hp = @pokemon_1.hp
-        @pokemon_1_temp_attack = @pokemon_1.attack
-        @pokemon_1_temp_speed = @pokemon_1.speed
-        @pokemon_2_temp_hp = @pokemon_2.hp
-        @pokemon_2_temp_attack = @pokemon_2.attack
-        @pokemon_2_temp_speed = @pokemon_2.speed
+
+        pmon_1 = Pokemon.find(self.id_one)
+        pmon_2 = Pokemon.find(self.id_two)
+
+        @@user_mon = pmon_1
+        @@rival_mon = pmon_2
+
+        @pokemon_1_temp_hp = @@user_mon.hp
+        @pokemon_1_temp_attack = @@user_mon.attack
+        @pokemon_1_temp_speed = @@user_mon.speed
+        @pokemon_2_temp_hp = @@rival_mon.hp
+        @pokemon_2_temp_attack = @@rival_mon.attack
+        @pokemon_2_temp_speed = @@rival_mon.speed
 
         until @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0 do 
           who_goes_first?
@@ -55,10 +69,14 @@ class Battle < ActiveRecord::Base
         end
 
         if @pokemon_1_temp_hp <= 0 
-            winner = self.pokemon_2
+            winner = @@rival_mon
         else
-            winner = self.pokemon_1
+            winner = @@user_mon
         end
+
+        self.winning_pokemon_id = winner.id
+        self.save
+        winner
     end
 
 end

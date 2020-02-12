@@ -1,6 +1,6 @@
-#Trainer.delete_all
-#Pokemon.delete_all
-#Battle.delete_all
+Trainer.delete_all
+Pokemon.delete_all
+Battle.delete_all
 
 ash = Trainer.create(name: "Ash")
 misty = Trainer.create(name: "Misty")

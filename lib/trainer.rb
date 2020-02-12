@@ -21,8 +21,9 @@ class Trainer < ActiveRecord::Base
         rival.pick_pokemon
         user_pokemon = Pokemon.all.find{|p| p.trainer_id == self.id}
         rival_pokemon = Pokemon.all.find{|p| p.trainer_id == rival.id}
-        battle = Battle.create(pokemon_1: user_pokemon.id, pokemon_2: rival_pokemon.id)
-        binding.pry
+        battle = Battle.create(pokemon_1_id: user_pokemon.id, pokemon_2_id: rival_pokemon.id)
+        battle.id_one = user_pokemon.id
+        battle.id_two = rival_pokemon.id
         result = battle.start
         rival_pokemon.trainer_id = nil
         if result.trainer_id == self.id
