@@ -16,6 +16,9 @@ ActiveRecord::Schema.define(version: 3) do
     t.integer "pokemon_1_id"
     t.integer "pokemon_2_id"
     t.integer "winning_pokemon_id"
+    t.integer "winning_trainer_id"
+    t.integer "losing_pokemon_id"
+    t.integer "losing_trainer_id"
   end
 
   create_table "pokemons", force: :cascade do |t|
