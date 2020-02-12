@@ -1,6 +1,6 @@
 class Battle < ActiveRecord::Base
 
-    attr_accessor :id_one, :id_two
+    attr_accessor :id_one, :id_two #:winning_pokemon_id, :winning_trainer_id, :losing_pokemon_id, :losing_trainer_id
     has_many :trainers, through: :pokemons
     has_many :pokemons
 
@@ -70,13 +70,17 @@ class Battle < ActiveRecord::Base
 
         if @pokemon_1_temp_hp <= 0 
             winner = @@rival_mon
+            loser = @@user_mon
         else
             winner = @@user_mon
+            loser = @@rival_mon
         end
 
         self.winning_pokemon_id = winner.id
+        self.winning_trainer_id = winner.trainer_id
+        self.losing_pokemon_id = loser.id
+        self.losing_trainer_id = loser.trainer_id
         self.save
-        winner
+        winner.trainer_id
     end
-
 end

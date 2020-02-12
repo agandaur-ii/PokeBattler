@@ -25,8 +25,8 @@ class Trainer < ActiveRecord::Base
         battle.id_one = user_pokemon.id
         battle.id_two = rival_pokemon.id
         result = battle.start
-        rival_pokemon.trainer_id = nil
-        if result.trainer_id == self.id
+        rival_pokemon.update(trainer_id: nil)
+        if result == self.id
             puts "You won!"
         else
             puts "You lost."
