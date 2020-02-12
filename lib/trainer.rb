@@ -16,6 +16,9 @@ class Trainer < ActiveRecord::Base
     end
 
     def current_pokemon
+        if self.pokemons.length == 0
+            return "You have not selected a Pokemon yet!"
+        end
         self.pokemons[0].name
     end
 
@@ -24,7 +27,11 @@ class Trainer < ActiveRecord::Base
     end
 
     def number_of_battles
-        battle_instances.count
+        check = battle_instances.count
+        if check == 0
+            return "You have not battled yet."
+        end
+        check
     end
 
     def win_instances
@@ -36,18 +43,34 @@ class Trainer < ActiveRecord::Base
     end
 
     def wins
-        battle_instances.select{|b| b.winning_trainer_id == self.id}.count
+       check = battle_instances.select{|b| b.winning_trainer_id == self.id}.count
+       if check == 0
+           return "You have not won yet."
+       end
+       check
     end
 
     def losses
-        battle_instances.select{|b| b.losing_trainer_id == self.id}.count
+        check = battle_instances.select{|b| b.losing_trainer_id == self.id}.count
+        if check == 0
+            return "You have not lost yet!"
+        end
     end
 
     def win_rate
+        if number_of_battles == "You have not battled yet."
+            return "You have not battled yet."
+        end
+        if wins == "You have not won yet."
+            return 0
+        end
         (wins.to_f / number_of_battles.to_f) * 100
     end
 
     def pokemon_used
+        if loss_instances.length == 0 && win_instances.length == 0
+            return "You haven't used any Pokemon yet."
+        end
         win_list_ids = win_instances.map{|w| w.winning_pokemon_id}
         win_list = win_list_ids.map{|w| Pokemon.find(w)}.map{|pokemon| pokemon.name}
         loss_list_ids = loss_instances.map{|l| l.losing_pokemon_id}
@@ -55,13 +78,13 @@ class Trainer < ActiveRecord::Base
         total = []
         total << win_list
         total << loss_list
-        if total.length == 0
-            return "You haven't used any Pokemon yet."
-        end
         total.flatten.uniq
     end
 
     def trainers_battled
+        if loss_instances.length == 0 && win_instances.length == 0
+            return "You haven't battled yet."
+        end
         win_list_ids = win_instances.map{|w| w.losing_trainer_id}
         win_list = win_list_ids.map{|w| Trainer.find(w)}.map{|trainer| trainer.name}
         loss_list_ids = loss_instances.map{|l| l.winning_trainer_id}
@@ -69,9 +92,6 @@ class Trainer < ActiveRecord::Base
         total = []
         total << win_list
         total << loss_list
-        if total.length == 0
-            return "You haven't battled yet."
-        end
         total.flatten.uniq
     end
 
@@ -205,9 +225,9 @@ class Trainer < ActiveRecord::Base
         losing_trainer_list = loss_list_ids.map{|l| Trainer.find(l)}.map{|trainer| trainer.name}
         trainer_count = Hash.new(0)
         losing_trainer_list.each {|trainer_name| trainer_count[trainer_name] += 1}
-        lowest_value = trainer_count.map{|k,v| v}.sort.first
+        max_value = trainer_count.map{|k,v| v}.sort.last
         worst = trainer_count.select do |k,v|
-            if v == lowest_value
+            if v == max_value
                 k
             end
         end
