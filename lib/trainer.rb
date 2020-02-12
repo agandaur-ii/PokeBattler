@@ -31,7 +31,7 @@ class Trainer < ActiveRecord::Base
         battle_instances.select{|b| b.winning_trainer_id == self.id}
     end
 
-    def lose_instances
+    def loss_instances
         battle_instances.select{|b| b.losing_trainer_id == self.id}
     end
 
@@ -39,7 +39,7 @@ class Trainer < ActiveRecord::Base
         battle_instances.select{|b| b.winning_trainer_id == self.id}.count
     end
 
-    def loses
+    def losses
         battle_instances.select{|b| b.losing_trainer_id == self.id}.count
     end
 
@@ -49,18 +49,32 @@ class Trainer < ActiveRecord::Base
 
     def pokemon_used
         win_list_ids = win_instances.map{|w| w.winning_pokemon_id}
-        win_list = win_list_ids.map{|w| Pokemon.find(w)}
+        win_list = win_list_ids.map{|w| Pokemon.find(w)}.map{|pokemon| pokemon.name}
         loss_list_ids = loss_instances.map{|l| l.losing_pokemon_id}
-        loss_list = loss_list_ids.map{|l| Pokemon.find(l)}
+        loss_list = loss_list_ids.map{|l| Pokemon.find(l)}.map{|pokemon| pokemon.name}
         total = []
         total << win_list
         total << loss_list
-        total.flatten
-        total.uniq
+        total.flatten.uniq
+    end
+
+    def trainers_battled
+        win_list_ids = win_instances.map{|w| w.losing_trainer_id}
+        win_list = win_list_ids.map{|w| Trainer.find(w)}.map{|trainer| trainer.name}
+        loss_list_ids = loss_instances.map{|l| l.winning_trainer_id}
+        loss_list = loss_list_ids.map{|l| Trainer.find(l)}.map{|trainer| trainer.name}
+        total = []
+        total << win_list
+        total << loss_list
+        total.flatten.uniq
     end
 
     def arch_rival
         #trainer you have lost to the most
+    end
+
+    def fav_pokemon
+        #pokemon that has gotten you the most wins
     end
 
     def not_you_again
@@ -88,6 +102,8 @@ class Trainer < ActiveRecord::Base
     end
 
     def retire
+        user_pokemon = Pokemon.all.find{|p| p.trainer_id == self.id}
+        user_pokemon.update(trainer_id: nil)
         self.delete
     end
 end
