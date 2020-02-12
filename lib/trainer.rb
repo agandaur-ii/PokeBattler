@@ -16,10 +16,11 @@ class Trainer < ActiveRecord::Base
     end
 
     def current_pokemon
-        if self.pokemons.length == 0
+        mon = Pokemon.all.select{|p| p.trainer_id == self.id}
+        if mon.length == 0
             return "You have not selected a Pokemon yet!"
         end
-        puts "Your current Pokemon is #{self.pokemons[0].name}"
+        puts "Your current Pokemon is #{mon[0].name}"
     end
 
     def battle_instances

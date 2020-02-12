@@ -24,12 +24,14 @@ class Battle < ActiveRecord::Base
     end
 
     def attack(player_num)
+        option = [1, 2, 3, 4, 5, 6, 7, 8]
+        pick = option.sample
         if player_num == @@user_mon
             puts "#{@@user_mon.name} attacks #{@@rival_mon.name}!"
-            @pokemon_2_temp_hp -= @pokemon_1_temp_attack
+            @pokemon_2_temp_hp -= (@pokemon_1_temp_attack + pick)
         else
             puts "#{@@rival_mon.name} attacks #{@@user_mon.name}!"
-            @pokemon_1_temp_hp -= @pokemon_2_temp_attack
+            @pokemon_1_temp_hp -= (@pokemon_2_temp_attack + pick)
         end
     end
 
