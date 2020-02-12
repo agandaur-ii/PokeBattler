@@ -15,6 +15,58 @@ class Trainer < ActiveRecord::Base
         choice
     end
 
+    def current_pokemon
+        self.pokemons[0].name
+    end
+
+    def battle_instances
+        Battle.all.select{|b| b.winning_trainer_id == self.id || b.losing_trainer_id == self.id}
+    end
+
+    def number_of_battles
+        battle_instances.count
+    end
+
+    def win_instances
+        battle_instances.select{|b| b.winning_trainer_id == self.id}
+    end
+
+    def lose_instances
+        battle_instances.select{|b| b.losing_trainer_id == self.id}
+    end
+
+    def wins
+        battle_instances.select{|b| b.winning_trainer_id == self.id}.count
+    end
+
+    def loses
+        battle_instances.select{|b| b.losing_trainer_id == self.id}.count
+    end
+
+    def win_rate
+        (wins.to_f / number_of_battles.to_f) * 100
+    end
+
+    def pokemon_used
+        win_list_ids = win_instances.map{|w| w.winning_pokemon_id}
+        win_list = win_list_ids.map{|w| Pokemon.find(w)}
+        loss_list_ids = loss_instances.map{|l| l.losing_pokemon_id}
+        loss_list = loss_list_ids.map{|l| Pokemon.find(l)}
+        total = []
+        total << win_list
+        total << loss_list
+        total.flatten
+        total.uniq
+    end
+
+    def arch_rival
+        #trainer you have lost to the most
+    end
+
+    def not_you_again
+        #pokemon you have lost to the most
+    end
+
     def battle!
         available_list = Trainer.all.select{|t| t != self}
         rival = available_list.sample
@@ -22,8 +74,10 @@ class Trainer < ActiveRecord::Base
         user_pokemon = Pokemon.all.find{|p| p.trainer_id == self.id}
         rival_pokemon = Pokemon.all.find{|p| p.trainer_id == rival.id}
         battle = Battle.create(pokemon_1_id: user_pokemon.id, pokemon_2_id: rival_pokemon.id)
-        battle.id_one = user_pokemon.id
-        battle.id_two = rival_pokemon.id
+        battle.p_id_one = user_pokemon.id
+        battle.p_id_two = rival_pokemon.id
+        battle.t_id_one = user_pokemon.trainer_id
+        battle.t_id_two = rival_pokemon.trainer_id
         result = battle.start
         rival_pokemon.update(trainer_id: nil)
         if result == self.id

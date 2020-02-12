@@ -1,6 +1,6 @@
 class Battle < ActiveRecord::Base
 
-    attr_accessor :id_one, :id_two #:winning_pokemon_id, :winning_trainer_id, :losing_pokemon_id, :losing_trainer_id
+    attr_accessor :p_id_one, :p_id_two, :t_id_one, :t_id_two
     has_many :trainers, through: :pokemons
     has_many :pokemons
 
@@ -49,11 +49,15 @@ class Battle < ActiveRecord::Base
 
     def start
 
-        pmon_1 = Pokemon.find(self.id_one)
-        pmon_2 = Pokemon.find(self.id_two)
+        pmon_1 = Pokemon.find(self.p_id_one)
+        pmon_2 = Pokemon.find(self.p_id_two)
+        t_1 = Trainer.find(self.t_id_one)
+        t_2 = Trainer.find(self.t_id_two)
 
         @@user_mon = pmon_1
         @@rival_mon = pmon_2
+
+        puts "#{t_1.name} and their #{@@user_mon.name} challenge #{t_2.name} and their #{@@rival_mon.name} to a battle!"
 
         @pokemon_1_temp_hp = @@user_mon.hp
         @pokemon_1_temp_attack = @@user_mon.attack
