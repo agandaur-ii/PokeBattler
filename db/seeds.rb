@@ -1,6 +1,9 @@
 Trainer.delete_all
+Trainer.reset_pk_sequence
 Pokemon.delete_all
+Pokemon.reset_pk_sequence
 Battle.delete_all
+Battle.reset_pk_sequence
 
 ash = Trainer.create(name: "Ash")
 misty = Trainer.create(name: "Misty")
