@@ -12,7 +12,7 @@ class Trainer < ActiveRecord::Base
         choice = available_list.sample
         choice.trainer_id = self.id
         choice.save
-        puts "You got #{choice.name}!"
+        "You got #{choice.name}!"
     end
 
     def current_pokemon

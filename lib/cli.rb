@@ -19,7 +19,7 @@ class CommandLineInterface
         puts "Let's see who your Pokemon will be!"
         input = prompt.select("Get Pokemon or Exit?", %w(Pokemon Exit))
         if input == "Pokemon"
-            @user.pick_pokemon
+            puts @user.pick_pokemon
         elsif input == "Exit"
             return exit
         end

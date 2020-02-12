@@ -4,12 +4,6 @@ class Battle < ActiveRecord::Base
     has_many :trainers, through: :pokemons
     has_many :pokemons
 
-    #pmon_1 = Pokemon.find(self.id_one)
-    #pmon_2 = Pokemon.find(self.id_two)
-
-    #@@user_mon = pmon_1
-    #@@rival_mon = pmon_2
-
     def who_goes_first?
         @player_one = nil
         @player_two = nil
@@ -30,21 +24,55 @@ class Battle < ActiveRecord::Base
     end
 
     def attack(player_num)
-        puts "attack!"
         if player_num == @@user_mon
+            puts "#{@@user_mon.name} attacks #{@@rival_mon.name}!"
             @pokemon_2_temp_hp -= @pokemon_1_temp_attack
         else
+            puts "#{@@rival_mon.name} attacks #{@@user_mon.name}!"
             @pokemon_1_temp_hp -= @pokemon_2_temp_attack
         end
     end
 
     def boost(player_num)
-        puts "Your pokemon feels stronger!"
+        option = [1, 2]
+        pick = option.sample
+        if player_num == @@user_mon
+            if pick == 1
+                puts "#{@@user_mon.name}'s attack increased!"
+                @pokemon_1_temp_attack += 10
+            else
+                puts "#{@@user_mon.name}'s speed increased!"
+                @pokemon_1_temp_speed += 10
+            end
+        else
+            if pick == 1
+                puts "#{@@rival_mon.name}'s attack increased!"
+                @pokemon_2_temp_attack += 10
+            else
+                puts "#{@@rival_mon.name}'s speed increased!"
+                @pokemon_2_temp_speed += 10
+            end
+        end
     end
 
     def turn(player_num)
-        #attack or boost?
-        attack(player_num)
+        prompt = TTY::Prompt.new
+        if player_num == @@user_mon
+            input = prompt.select("What would you like to do?", %w(Attack Boost))
+                if input == "Attack"
+                    attack(player_num)
+                elsif input == "Boost"
+                    boost(player_num)
+                end
+        else 
+            option = [1, 1, 1, 2]
+            pick = option.sample
+            if pick == 1
+                attack(player_num)
+            else
+                boost(player_num)
+            end
+        end
     end
 
     def start
