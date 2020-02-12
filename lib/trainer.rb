@@ -12,14 +12,14 @@ class Trainer < ActiveRecord::Base
         choice = available_list.sample
         choice.trainer_id = self.id
         choice.save
-        choice
+        puts "You got #{choice.name}!"
     end
 
     def current_pokemon
         if self.pokemons.length == 0
             return "You have not selected a Pokemon yet!"
         end
-        self.pokemons[0].name
+        puts "Your current Pokemon is #{self.pokemons[0].name}"
     end
 
     def battle_instances
@@ -55,6 +55,7 @@ class Trainer < ActiveRecord::Base
         if check == 0
             return "You have not lost yet!"
         end
+        check
     end
 
     def win_rate
