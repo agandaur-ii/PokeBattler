@@ -94,7 +94,8 @@ class Battle < ActiveRecord::Base
         @@user_mon = pmon_1
         @@rival_mon = pmon_2
 
-        puts "#{t_1.name} and their #{@@user_mon.name} challenge #{t_2.name} and their #{@@rival_mon.name} to a battle!"
+        puts "#{t_1.name} and their #{@@user_mon.name} challenge #{t_2.name} and their #{@@rival_mon.name} to a battle!".colorize(:yellow)
+        puts ""
 
         @pokemon_1_temp_hp = @@user_mon.hp
         @pokemon_1_temp_attack = @@user_mon.attack
