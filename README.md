@@ -23,6 +23,9 @@
 
 ![](images/battle.png)
 
+### Video
+![](images/zoom_1.mp4)
+
 #### Credits
 * All Pokémon names are owned trademarks of Nintendo / GAME FREAK.
 * ASCII Character Artist: Maija Haavisto (MH), @DiamonDie on Twitter.
