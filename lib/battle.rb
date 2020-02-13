@@ -32,7 +32,7 @@ class Battle < ActiveRecord::Base
             @pokemon_2_temp_hp -= (@pokemon_1_temp_attack + pick)
         else
             puts "Opponent's Turn".colorize(:red)
-            puts "#Your opponent's #{@@rival_mon.name} attacks your #{@@user_mon.name}!"
+            puts "Your opponent's #{@@rival_mon.name} attacks your #{@@user_mon.name}!"
             @pokemon_1_temp_hp -= (@pokemon_2_temp_attack + pick)
         end
     end
@@ -84,6 +84,36 @@ class Battle < ActiveRecord::Base
         @round_count += 0.5
     end
 
+    def user_mon_health
+        health = {
+            100: "==========".colorize(:green), 
+            90: "==========".colorize(:green), 
+            80: "========".colorize(:green), 
+            70: "=======".colorize(:green), 
+            60: "======".colorize(:green), 
+            50: "=====".colorize(:green), 
+            40: "====".colorize(:green), 
+            30: "===".colorize(:red), 
+            20: "==".colorize(:red), 
+            10: "=".colorize(:red)
+        }
+    end
+
+    def rival_mon_health
+        health = {
+            100: "==========".colorize(:green), 
+            90: "==========".colorize(:green), 
+            80: "========".colorize(:green), 
+            70: "=======".colorize(:green), 
+            60: "======".colorize(:green), 
+            50: "=====".colorize(:green), 
+            40: "====".colorize(:green), 
+            30: "===".colorize(:red), 
+            20: "==".colorize(:red), 
+            10: "=".colorize(:red)
+        }
+    end
+
     def start
 
         pmon_1 = Pokemon.find(self.p_id_one)
@@ -108,9 +138,9 @@ class Battle < ActiveRecord::Base
 
         until @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0 do  
           who_goes_first?
-          puts "======================================="
-          puts "========        ROUND #{@round_count.to_int}        ========"
-          puts "======================================="
+          puts "+++++++++++++++++++++++++++++++++++++++"
+          puts "++++++++        ROUND #{@round_count.to_int}        ++++++++"
+          puts "+++++++++++++++++++++++++++++++++++++++"
           turn(@player_one)
           if @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0
             puts "End of match!"

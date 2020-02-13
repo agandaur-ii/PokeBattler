@@ -16,8 +16,9 @@ class CommandLineInterface
         puts "Some things to remember:"
         puts "  1. You can only have one Pokemon at a time."
         puts "  2. An opponent will be randomly assigned to you for every battle."
-        puts "  3. You will pick a new Pokemon after every battle."
-        puts "  4. Don't forget to have fun!"
+        puts "  3. Use Boost to up your Pokemon's attack or speed."
+        puts "  4. You will pick a new Pokemon after every battle."
+        puts "  5. Don't forget to have fun!"
         puts "                                                                                      Hit enter to continue"
         gets.chomp
     end
@@ -39,22 +40,24 @@ class CommandLineInterface
 
     def main_menu
         prompt = TTY::Prompt.new
-        array = ["New Pokemon", "My Current Pokemon", "Battle", "Stats", "Exit"]
+        array = ["New Pokemon", "Current Pokemon's stats", "Battle", "My Stats", "Exit"]
         input = prompt.select("What would you like to do?", array)
         if input == "New Pokemon"
             puts @user.pick_pokemon
             puts ""
             main_menu
-        elsif input == "My Current Pokemon"
-            name = @user.current_pokemon
+        elsif input == "Current Pokemon's stats"
+            mon = Pokemon.all.find{|p| p.trainer_id == @user.id}
+            puts mon.stats
             main_menu
             puts
         elsif input == "Battle"
+            puts ""
             battle_title
             puts ""
             battle
             puts
-        elsif input == "Stats"
+        elsif input == "My Stats"
             stats
             puts
         elsif input == "Exit"
@@ -129,6 +132,11 @@ class CommandLineInterface
     end
 
     def exit
+        remove_id_if_found = Pokemon.all.find{|p| p.trainer_id == @user.id}
+        if remove_id_if_found != nil
+            remove_id_if_found.trainer_id = nil
+            remove_id_if_found.save
+        end
         return "Thanks for using PokeBattler!"
     end
 
