@@ -9,13 +9,13 @@ class CommandLineInterface
         puts ""
         @name = gets.chomp
         check_name = Trainer.find_by(name: @name)
-        if check_name
-            @user = check_name
-            puts "Welcome back, #{@name}!"
-            puts ""
-        else
+        if check_name == nil
             @user = Trainer.create(name: @name)
             puts "Registered as trainer #{@name}"
+            puts ""
+        else
+            @user = check_name
+            puts "Welcome back, #{@name}!"
             puts ""
         end
     end
