@@ -49,7 +49,7 @@ class CommandLineInterface
 
     def main_menu
         prompt = TTY::Prompt.new
-        array = ["New Pokemon", "Current Pokemon", "Current Pokemon's stats", "Battle", "My Stats", "Exit"]
+        array = ["New Pokemon", "Current Pokemon", "Current Pokemon's stats", "Battle", "My Stats","Retire", "Exit"]
         input = prompt.select("What would you like to do?", array)
         if input == "New Pokemon"
             puts @user.pick_pokemon
@@ -72,6 +72,8 @@ class CommandLineInterface
         elsif input == "My Stats"
             stats
             puts
+        elsif input == "Retire"
+            retire?
         elsif input == "Exit"
             return exit
         end
@@ -183,6 +185,38 @@ class CommandLineInterface
         tutorial
         welcome
         get_pokemon
+    end
+
+    def retire?
+        system("cls") || system("clear")
+        prompt = TTY::Prompt.new
+        puts "Retiring will remove your name from our trainer database."
+        puts "Your trainer legacy will come to a close and your stats will no longer be able to be altered."
+        array = ["Yes", "No"]
+        input = prompt.select("Retire?", array)
+        if input == "Yes"
+            retire_confirm
+        elsif input == "No"
+            system("cls") || system("clear")
+            main_menu
+        end
+
+    end
+
+    def retire_confirm
+        prompt = TTY::Prompt.new
+        array = ["Yes", "No"]
+        input = prompt.select("Are you sure you want to retire? This action cannot be undone.", array)
+        if input == "Yes"
+            @user.retire
+            puts "Your account has been removed."
+            puts "                                                                                      Hit enter to close the program"
+            gets.chomp
+            return exit
+        elsif input == "No"
+            system("cls") || system("clear")
+            main_menu
+        end
     end
 
     def battle_title
