@@ -7,3 +7,4 @@ gem "pry"
 gem "require_all"
 gem 'activerecord-reset-pk-sequence'
 gem 'tty-prompt'
+gem 'colorize'

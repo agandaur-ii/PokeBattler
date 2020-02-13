@@ -2,10 +2,6 @@ require "tty-prompt"
 
 class CommandLineInterface
     prompt = TTY::Prompt.new
-
-    def splash_page
-
-    end
     
     def welcome
         puts "Welcome to PokeBattler! Please enter your name."
@@ -28,10 +24,11 @@ class CommandLineInterface
 
     def main_menu
         prompt = TTY::Prompt.new
-        input = prompt.select("What would you like to do?", %w(New_Pokemon My_Pokemon Battle Stats Exit))
-        if input == "New_Pokemon"
+        array = ["New Pokemon", "My Pokemon", "Battle", "Stats", "Exit"]
+        input = prompt.select("What would you like to do?", array)
+        if input == "New Pokemon"
             get_pokemon
-        elsif input == "My_Pokemon"
+        elsif input == "My Pokemon"
             name = @user.current_pokemon
             main_menu
         elsif input == "Battle"
@@ -46,9 +43,9 @@ class CommandLineInterface
 
     def stats 
         prompt = TTY::Prompt.new
-        choices = %w(Wins Losses Win_Rate Pokemon_Used Trainers_Battled Arch_Rival Favorite_Pokemon Not_You_Again Best_Trainer Worst_Trainer Best_Pokemon Worst_Pokemon Main_Menu Exit)
+        choices = ("Wins", "Losses", "Win Rate", "Pokemon Used", "Trainers Battled", "Arch Rival", "Favorite Pokemon", "Not You Again", "Best Trainer", "Worst Trainer", "Best Pokemon", "Worst Pokemon", "Main Menu", "Exit")
         input = prompt.select("Pick a stat to see.", choices)
-        if input == "Main_Menu"
+        if input == "Main Menu"
             main_menu
         elsif input == "Wins"
             puts @user.wins
@@ -56,34 +53,34 @@ class CommandLineInterface
         elsif input == "Losses"
              puts @user.losses
              stats
-        elsif input == "Win_Rate"
+        elsif input == "Win Rate"
             puts @user.win_rate
             stats
-        elsif input == "Pokemon_Used"
+        elsif input == "Pokemon Used"
             puts @user.pokemon_used
             stats
-        elsif input == "Trainers_Battled"
+        elsif input == "Trainers Battled"
             puts @user.trainers_battled
             stats
-        elsif input == "Arch_Rival"
+        elsif input == "Arch Rival"
             puts @user.arch_rival
             stats
-        elsif input == "Favorite_Pokemon"
+        elsif input == "Favorite Pokemon"
             puts @user.fav_pokemon
             stats
-        elsif input == "Not_You_Again"
+        elsif input == "Not You Again"
             puts @user.not_you_again
             stats
-        elsif input == "Best_Trainer"
+        elsif input == "Best Trainer"
             Trainer.the_best
             stats
-        elsif input == "Worst_Trainer"
+        elsif input == "Worst Trainer"
             Trainer.the_worst
             stats
-        elsif input == "Best_Pokemon"
+        elsif input == "Best Pokemon"
             Pokemon.the_best
             stats
-        elsif input == "Worst_Pokemon"
+        elsif input == "Worst Pokemon"
             Pokemon.the_worst
             stats
         elsif input == "Exit"
@@ -104,5 +101,9 @@ class CommandLineInterface
         splash_page
         welcome
         get_pokemon
+    end
+
+    def splash_page
+
     end
 end

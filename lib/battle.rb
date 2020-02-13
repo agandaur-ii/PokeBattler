@@ -27,10 +27,12 @@ class Battle < ActiveRecord::Base
         option = [1, 2, 3, 4, 5, 6, 7, 8]
         pick = option.sample
         if player_num == @@user_mon
-            puts "#{@@user_mon.name} attacks #{@@rival_mon.name}!"
+            puts "Your turn".colorize(:green)
+            puts "Your #{@@user_mon.name} attacks your oppenent's #{@@rival_mon.name}!"
             @pokemon_2_temp_hp -= (@pokemon_1_temp_attack + pick)
         else
-            puts "#{@@rival_mon.name} attacks #{@@user_mon.name}!"
+            puts "Opponent's Turn".colorize(:red)
+            puts "#Your opponent's #{@@rival_mon.name} attacks your #{@@user_mon.name}!"
             @pokemon_1_temp_hp -= (@pokemon_2_temp_attack + pick)
         end
     end
@@ -40,18 +42,22 @@ class Battle < ActiveRecord::Base
         pick = option.sample
         if player_num == @@user_mon
             if pick == 1
-                puts "#{@@user_mon.name}'s attack increased!"
+                puts "Your turn".colorize(:green)
+                puts "Your #{@@user_mon.name}'s attack increased!"
                 @pokemon_1_temp_attack += 10
             else
-                puts "#{@@user_mon.name}'s speed increased!"
+                puts "Your turn".colorize(:green)
+                puts "Your #{@@user_mon.name}'s speed increased!"
                 @pokemon_1_temp_speed += 10
             end
         else
             if pick == 1
-                puts "#{@@rival_mon.name}'s attack increased!"
+                puts "Opponent's Turn".colorize(:red)
+                puts "Opposing #{@@rival_mon.name}'s attack increased!"
                 @pokemon_2_temp_attack += 10
             else
-                puts "#{@@rival_mon.name}'s speed increased!"
+                puts "Opponent's Turn".colorize(:red)
+                puts "Opposing #{@@rival_mon.name}'s speed increased!"
                 @pokemon_2_temp_speed += 10
             end
         end
@@ -75,6 +81,7 @@ class Battle < ActiveRecord::Base
                 boost(player_num)
             end
         end
+        @round_count += 0.5
     end
 
     def start
@@ -95,10 +102,19 @@ class Battle < ActiveRecord::Base
         @pokemon_2_temp_hp = @@rival_mon.hp
         @pokemon_2_temp_attack = @@rival_mon.attack
         @pokemon_2_temp_speed = @@rival_mon.speed
+        
+        @round_count = 1
 
-        until @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0 do 
+        until @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0 do  
           who_goes_first?
+          puts "======================================="
+          puts "========        ROUND #{@round_count.to_int}        ========"
+          puts "======================================="
           turn(@player_one)
+          if @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0
+            puts "End of match!"
+            break
+          end
           turn(@player_two)
         end
 
