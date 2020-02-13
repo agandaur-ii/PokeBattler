@@ -24,7 +24,7 @@
 ![](images/battle.png)
 
 ### Video
-![](images/zoom_1.mp4)
+[](https://youtu.be/wah5BM0VgdY)
 
 #### Credits
 * All Pokémon names are owned trademarks of Nintendo / GAME FREAK.
