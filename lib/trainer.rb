@@ -12,14 +12,15 @@ class Trainer < ActiveRecord::Base
         choice = available_list.sample
         choice.trainer_id = self.id
         choice.save
-        choice
+        "You got #{choice.name}!"
     end
 
     def current_pokemon
-        if self.pokemons.length == 0
+        mon = Pokemon.all.select{|p| p.trainer_id == self.id}
+        if mon.length == 0
             return "You have not selected a Pokemon yet!"
         end
-        self.pokemons[0].name
+        "Your current Pokemon is #{mon[0].name}"
     end
 
     def battle_instances
@@ -55,6 +56,7 @@ class Trainer < ActiveRecord::Base
         if check == 0
             return "You have not lost yet!"
         end
+        check
     end
 
     def win_rate
@@ -64,7 +66,7 @@ class Trainer < ActiveRecord::Base
         if wins == "You have not won yet."
             return 0
         end
-        (wins.to_f / number_of_battles.to_f) * 100
+        ((wins.to_f / number_of_battles.to_f) * 100).round(2)
     end
 
     def pokemon_used
@@ -115,7 +117,7 @@ class Trainer < ActiveRecord::Base
         end
 
         if rivals.keys.length == 1
-            puts "Your rival is #{rivals.keys[0]}"
+            "Your rival is #{rivals.keys[0]}"
         else
             puts "You have many rivals!"
             rivals.keys.each{|rival| puts "#{rival}"}
@@ -142,9 +144,9 @@ class Trainer < ActiveRecord::Base
         end
 
         if fav.keys.length == 1
-            puts "#{fav.keys[0]} is your favorite Pokemon!"
+            "#{fav.keys[0]} is your favorite Pokemon!"
         else
-            puts "All of these Pokemon are your favorite!"
+           puts "All of these Pokemon are your favorite!"
             fav.keys.each{|fav| puts "#{fav}"}
         end
     end
@@ -169,7 +171,7 @@ class Trainer < ActiveRecord::Base
         end
 
         if rivals.keys.length == 1
-            puts "#{rivals.keys[0]} has beaten you the most"
+            "#{rivals.keys[0]} has beaten you the most"
         else
             puts "All these Pokemon have given you the beat down!"
             rivals.keys.each{|rival| puts "#{rival}"}
@@ -189,13 +191,16 @@ class Trainer < ActiveRecord::Base
         battle.t_id_two = rival_pokemon.trainer_id
         result = battle.start
         rival_pokemon.update(trainer_id: nil)
-        user_pokemon.update(trainer_id: nil)
-        user_pokemon.trainer_id = nil
+        #user_pokemon.update(trainer_id: nil)
+        #user_pokemon.trainer_id = nil
         if result == self.id
             puts "You won!"
         else
             puts "You lost."
         end
+        puts "                                                                                      Hit enter to continue"
+        gets.chomp
+        system("cls") || system("clear")
     end
 
     def self.the_best
