@@ -151,6 +151,7 @@ class CommandLineInterface
         puts "+-+ +-+ +-+ +-+ +-+ +-+ +-+"
         puts "|B| |a| |t| |t| |l| |e| |!|"
         puts "+-+ +-+ +-+ +-+ +-+ +-+ +-+"
+        puts ''
     end
 
     def splash_page

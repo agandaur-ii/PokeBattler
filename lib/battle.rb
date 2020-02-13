@@ -26,14 +26,34 @@ class Battle < ActiveRecord::Base
     def attack(player_num)
         option = [1, 2, 3, 4, 5, 6, 7, 8]
         pick = option.sample
+        crit_chance = rand().to_f.round(4)
+        miss_chance = rand().to_f.round(4)
         if player_num == @@user_mon
             puts "Your turn".colorize(:green)
             puts "Your #{@@user_mon.name} attacks your oppenent's #{@@rival_mon.name}!"
-            @pokemon_2_temp_hp -= (@pokemon_1_temp_attack + pick)
+            if miss_chance <= 0.5000 
+                puts ""
+                puts "Your attack missed!"
+            elsif crit_chance <= 0.5000 
+                puts ""
+                puts "A CRITICAL HIT".colorize(:color => :black, :background => :red)
+                @pokemon_2_temp_hp -= ((@pokemon_1_temp_attack * 1.5) + pick)
+            else
+                @pokemon_2_temp_hp -= (@pokemon_1_temp_attack + pick)
+            end
         else
             puts "Opponent's Turn".colorize(:red)
             puts "Your opponent's #{@@rival_mon.name} attacks your #{@@user_mon.name}!"
-            @pokemon_1_temp_hp -= (@pokemon_2_temp_attack + pick)
+            if miss_chance <= 0.5000 
+                puts ""
+                puts "Their attack missed!"
+            elsif crit_chance <= 0.5000 
+                puts ""
+                puts "A CRITICAL HIT".colorize(:color => :black, :background => :red)
+                @pokemon_1_temp_hp -= ((@pokemon_2_temp_attack * 1.5) + pick)
+            else
+                @pokemon_1_temp_hp -= (@pokemon_2_temp_attack + pick)
+            end
         end
     end
 
