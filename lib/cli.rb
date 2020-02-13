@@ -13,8 +13,9 @@ class CommandLineInterface
     def get_pokemon
         prompt = TTY::Prompt.new
         puts "Let's see who your Pokemon will be!"
-        input = prompt.select("Get Pokemon or Exit?", %w(Pokemon Exit))
-        if input == "Pokemon"
+        array = ["Get Pokemon", "Exit"]
+        input = prompt.select("Get Pokemon or Exit?", array)
+        if input == "Get Pokemon"
             puts @user.pick_pokemon
         elsif input == "Exit"
             return exit
@@ -43,7 +44,7 @@ class CommandLineInterface
 
     def stats 
         prompt = TTY::Prompt.new
-        choices = ("Wins", "Losses", "Win Rate", "Pokemon Used", "Trainers Battled", "Arch Rival", "Favorite Pokemon", "Not You Again", "Best Trainer", "Worst Trainer", "Best Pokemon", "Worst Pokemon", "Main Menu", "Exit")
+        choices = ["Wins", "Losses", "Win Rate", "Pokemon Used", "Trainers Battled", "Arch Rival", "Favorite Pokemon", "Not You Again", "Best Trainer", "Worst Trainer", "Best Pokemon", "Worst Pokemon", "Main Menu", "Exit"]
         input = prompt.select("Pick a stat to see.", choices)
         if input == "Main Menu"
             main_menu
