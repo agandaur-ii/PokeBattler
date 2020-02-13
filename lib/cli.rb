@@ -4,20 +4,29 @@ class CommandLineInterface
     prompt = TTY::Prompt.new
     
     def welcome
+        system("cls") || system("clear")
         puts "Welcome to PokeBattler! Please enter your name."
         puts ""
         @name = gets.chomp
-        @user = Trainer.create(name: @name)
-        puts "Registered as trainer #{@name}"
-        puts
+        check_name = Trainer.find_by(name: @name)
+        if check_name
+            @user = check_name
+            puts "Welcome back, #{@name}!"
+            puts ""
+        else
+            @user = Trainer.create(name: @name)
+            puts "Registered as trainer #{@name}"
+            puts ""
+        end
     end
 
     def tutorial
+        system("cls") || system("clear")
         puts "Some things to remember:"
         puts "  1. You can only have one Pokemon at a time."
         puts "  2. An opponent will be randomly assigned to you for every battle."
         puts "  3. Use Boost to up your Pokemon's attack or speed."
-        puts "  4. You will pick a new Pokemon after every battle."
+        puts "  4. You can pick a new Pokemon after every battle."
         puts "  5. Don't forget to have fun!"
         puts "                                                                                      Hit enter to continue"
         gets.chomp
@@ -60,7 +69,6 @@ class CommandLineInterface
             battle_title
             puts ""
             battle
-            puts
         elsif input == "My Stats"
             stats
             puts
@@ -70,59 +78,85 @@ class CommandLineInterface
 
     end
 
-    def stats 
+    def stats
+        system("cls") || system("clear")
         prompt = TTY::Prompt.new
         choices = ["Wins", "Losses", "Win Rate", "Pokemon Used", "Trainers Battled", "Arch Rival", "Favorite Pokemon", "Not You Again", "Best Trainer", "Worst Trainer", "Best Pokemon", "Worst Pokemon", "Main Menu", "Exit"]
         input = prompt.select("Pick a stat to see.", choices)
         if input == "Main Menu"
+            system("cls") || system("clear")
             main_menu
         elsif input == "Wins"
             puts @user.wins
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Losses"
              puts @user.losses
              puts
+             puts "                                                                                      Hit enter to continue"
+             gets.chomp
              stats
         elsif input == "Win Rate"
             puts @user.win_rate
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Pokemon Used"
             puts @user.pokemon_used
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Trainers Battled"
             puts @user.trainers_battled
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Arch Rival"
             puts @user.arch_rival
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Favorite Pokemon"
             puts @user.fav_pokemon
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Not You Again"
             puts @user.not_you_again
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Best Trainer"
             Trainer.the_best
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Worst Trainer"
             Trainer.the_worst
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Best Pokemon"
             Pokemon.the_best
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Worst Pokemon"
             Pokemon.the_worst
             puts
+            puts "                                                                                      Hit enter to continue"
+            gets.chomp
             stats
         elsif input == "Exit"
            return exit
@@ -152,6 +186,7 @@ class CommandLineInterface
     end
 
     def battle_title
+        system("cls") || system("clear")
         puts "+-+ +-+ +-+ +-+ +-+ +-+ +-+"
         puts "|B| |a| |t| |t| |l| |e| |!|"
         puts "+-+ +-+ +-+ +-+ +-+ +-+ +-+"

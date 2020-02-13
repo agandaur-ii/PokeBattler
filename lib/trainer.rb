@@ -66,7 +66,7 @@ class Trainer < ActiveRecord::Base
         if wins == "You have not won yet."
             return 0
         end
-        (wins.to_f / number_of_battles.to_f) * 100
+        ((wins.to_f / number_of_battles.to_f) * 100).round(2)
     end
 
     def pokemon_used
@@ -198,6 +198,9 @@ class Trainer < ActiveRecord::Base
         else
             puts "You lost."
         end
+        puts "                                                                                      Hit enter to continue"
+        gets.chomp
+        system("cls") || system("clear")
     end
 
     def self.the_best
