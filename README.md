@@ -19,8 +19,9 @@
   * Boost with randomly increase your current Pokémon's attack or speed
 
 ### Screenshots
+![](images/main_menu.png)
 
-
+![](images/battle.png)
 
 #### Credits
 * All Pokémon names are owned trademarks of Nintendo / GAME FREAK.
