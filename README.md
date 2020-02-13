@@ -28,7 +28,7 @@
 * ASCII Character Artist: Maija Haavisto (MH), @DiamonDie on Twitter.
 
 
-#### License
+#### License [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 Copyright (C) 2020 Christopher Wagstaffe
 
