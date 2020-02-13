@@ -215,7 +215,7 @@ class Trainer < ActiveRecord::Base
         if best.keys.length == 0
             "There is no best trainer yet"
         elsif best.keys.length == 1
-            "#{best.keys[0]} is the best trainer!"
+            puts "#{best.keys[0]} is the best trainer!"
         else
             puts "These are all the best trainers:"
             best.keys.each{|b| puts "#{b}"}
