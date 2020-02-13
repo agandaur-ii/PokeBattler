@@ -40,10 +40,14 @@ class CommandLineInterface
 
     def main_menu
         prompt = TTY::Prompt.new
-        array = ["New Pokemon", "Current Pokemon's stats", "Battle", "My Stats", "Exit"]
+        array = ["New Pokemon", "Current Pokemon", "Current Pokemon's stats", "Battle", "My Stats", "Exit"]
         input = prompt.select("What would you like to do?", array)
         if input == "New Pokemon"
             puts @user.pick_pokemon
+            puts ""
+            main_menu
+        elsif input == "Current Pokemon"
+            puts @user.current_pokemon
             puts ""
             main_menu
         elsif input == "Current Pokemon's stats"
@@ -128,7 +132,7 @@ class CommandLineInterface
     def battle
         @user.battle!
         puts
-        get_pokemon
+        main_menu
     end
 
     def exit

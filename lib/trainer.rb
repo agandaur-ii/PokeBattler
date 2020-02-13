@@ -20,7 +20,7 @@ class Trainer < ActiveRecord::Base
         if mon.length == 0
             return "You have not selected a Pokemon yet!"
         end
-        puts "Your current Pokemon is #{mon[0].name}"
+        "Your current Pokemon is #{mon[0].name}"
     end
 
     def battle_instances
@@ -191,8 +191,8 @@ class Trainer < ActiveRecord::Base
         battle.t_id_two = rival_pokemon.trainer_id
         result = battle.start
         rival_pokemon.update(trainer_id: nil)
-        user_pokemon.update(trainer_id: nil)
-        user_pokemon.trainer_id = nil
+        #user_pokemon.update(trainer_id: nil)
+        #user_pokemon.trainer_id = nil
         if result == self.id
             puts "You won!"
         else

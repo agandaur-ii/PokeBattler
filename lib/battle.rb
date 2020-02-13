@@ -5,6 +5,12 @@ class Battle < ActiveRecord::Base
     has_many :pokemons
 
     def who_goes_first?
+        puts "#{@@user_mon.name}'s health:"
+        puts user_mon_health
+        puts ""
+        puts "#{@@rival_mon.name}'s health:"
+        puts rival_mon_health
+        puts ""
         @player_one = nil
         @player_two = nil
         list = [@@user_mon, @@rival_mon]
@@ -31,27 +37,31 @@ class Battle < ActiveRecord::Base
         if player_num == @@user_mon
             puts "Your turn".colorize(:green)
             puts "Your #{@@user_mon.name} attacks your oppenent's #{@@rival_mon.name}!"
-            if miss_chance <= 0.5000 
+            if miss_chance <= 0.0500 
                 puts ""
-                puts "Your attack missed!"
-            elsif crit_chance <= 0.5000 
+                puts "Your attack missed!".colorize(:yellow)
+            elsif crit_chance <= 0.0625 
                 puts ""
-                puts "A CRITICAL HIT".colorize(:color => :black, :background => :red)
+                puts "A CRITICAL HIT".colorize(:color => :black, :background => :green)
                 @pokemon_2_temp_hp -= ((@pokemon_1_temp_attack * 1.5) + pick)
             else
+                puts ""
+                puts "A hit!"
                 @pokemon_2_temp_hp -= (@pokemon_1_temp_attack + pick)
             end
         else
             puts "Opponent's Turn".colorize(:red)
             puts "Your opponent's #{@@rival_mon.name} attacks your #{@@user_mon.name}!"
-            if miss_chance <= 0.5000 
+            if miss_chance <= 0.0500  
                 puts ""
-                puts "Their attack missed!"
-            elsif crit_chance <= 0.5000 
+                puts "Their attack missed!".colorize(:yellow)
+            elsif crit_chance <= 0.0625 
                 puts ""
                 puts "A CRITICAL HIT".colorize(:color => :black, :background => :red)
                 @pokemon_1_temp_hp -= ((@pokemon_2_temp_attack * 1.5) + pick)
             else
+                puts ""
+                puts "A hit!"
                 @pokemon_1_temp_hp -= (@pokemon_2_temp_attack + pick)
             end
         end
@@ -64,33 +74,27 @@ class Battle < ActiveRecord::Base
             if pick == 1
                 puts "Your turn".colorize(:green)
                 puts "Your #{@@user_mon.name}'s attack increased!"
-                @pokemon_1_temp_attack += 10
+                @pokemon_1_temp_attack += 20
             else
                 puts "Your turn".colorize(:green)
                 puts "Your #{@@user_mon.name}'s speed increased!"
-                @pokemon_1_temp_speed += 10
+                @pokemon_1_temp_speed += 20
             end
         else
             if pick == 1
                 puts "Opponent's Turn".colorize(:red)
                 puts "Opposing #{@@rival_mon.name}'s attack increased!"
-                @pokemon_2_temp_attack += 10
+                @pokemon_2_temp_attack += 20
             else
                 puts "Opponent's Turn".colorize(:red)
                 puts "Opposing #{@@rival_mon.name}'s speed increased!"
-                @pokemon_2_temp_speed += 10
+                @pokemon_2_temp_speed += 20
             end
         end
     end
 
     def turn(player_num)
         prompt = TTY::Prompt.new
-        puts "#{@@user_mon.name}'s health:"
-        puts user_mon_health
-        puts ""
-        puts "#{@@rival_mon.name}'s health:"
-        puts rival_mon_health
-        puts ""
         if player_num == @@user_mon
             input = prompt.select("What would you like to do?", %w(Attack Boost))
                 if input == "Attack"
@@ -211,10 +215,12 @@ class Battle < ActiveRecord::Base
         @round_count = 1
 
         until @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0 do  
-          who_goes_first?
+          puts ""
           puts "+++++++++++++++++++++++++++++++++++++++"
           puts "++++++++        ROUND #{@round_count.to_int}        ++++++++"
           puts "+++++++++++++++++++++++++++++++++++++++"
+          puts ""
+          who_goes_first?
           turn(@player_one)
           if @pokemon_1_temp_hp <= 0 || @pokemon_2_temp_hp <= 0
             puts "End of match!"
