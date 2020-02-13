@@ -65,6 +65,12 @@ class Battle < ActiveRecord::Base
 
     def turn(player_num)
         prompt = TTY::Prompt.new
+        puts "#{@@user_mon.name}'s health:"
+        puts user_mon_health
+        puts ""
+        puts "#{@@rival_mon.name}'s health:"
+        puts rival_mon_health
+        puts ""
         if player_num == @@user_mon
             input = prompt.select("What would you like to do?", %w(Attack Boost))
                 if input == "Attack"
@@ -86,32 +92,80 @@ class Battle < ActiveRecord::Base
 
     def user_mon_health
         health = {
-            100: "==========".colorize(:green), 
-            90: "==========".colorize(:green), 
-            80: "========".colorize(:green), 
-            70: "=======".colorize(:green), 
-            60: "======".colorize(:green), 
-            50: "=====".colorize(:green), 
-            40: "====".colorize(:green), 
-            30: "===".colorize(:red), 
-            20: "==".colorize(:red), 
-            10: "=".colorize(:red)
+            100 => "==========|".colorize(:green), 
+            90 => "========= |".colorize(:green), 
+            80 => "========  |".colorize(:green), 
+            70 => "=======   |".colorize(:green), 
+            60 => "======    |".colorize(:green), 
+            50 => "=====     |".colorize(:green), 
+            40 => "====      |".colorize(:green), 
+            30 => "===       |".colorize(:red), 
+            20 => "==        |".colorize(:red), 
+            10 => "=         |".colorize(:red)
         }
+        current_health = (@pokemon_1_temp_hp.to_f / @@user_mon.hp.to_f) * 100
+        temp_health = nil
+        if current_health > 91
+            temp_health = health[100]
+        elsif current_health.between?(80,91)
+            temp_health = health[90]
+        elsif current_health.between?(70,81)
+            temp_health = health[80]
+        elsif current_health.between?(60,71)
+            temp_health = health[70]
+        elsif current_health.between?(50,61)
+            temp_health = health[60]
+        elsif current_health.between?(40,51)
+            temp_health = health[50]
+        elsif current_health.between?(30,41)
+            temp_health = health[40]
+        elsif current_health.between?(20,31)
+            temp_health = health[30]
+        elsif current_health.between?(10,21)
+            temp_health = health[20]
+        elsif current_health.between?( 0,11)
+            temp_health = health[10]
+        end
+        return temp_health
     end
 
     def rival_mon_health
         health = {
-            100: "==========".colorize(:green), 
-            90: "==========".colorize(:green), 
-            80: "========".colorize(:green), 
-            70: "=======".colorize(:green), 
-            60: "======".colorize(:green), 
-            50: "=====".colorize(:green), 
-            40: "====".colorize(:green), 
-            30: "===".colorize(:red), 
-            20: "==".colorize(:red), 
-            10: "=".colorize(:red)
+            100 => "==========|".colorize(:green), 
+            90 => "========= |".colorize(:green), 
+            80 => "========  |".colorize(:green), 
+            70 => "=======   |".colorize(:green), 
+            60 => "======    |".colorize(:green), 
+            50 => "=====     |".colorize(:green), 
+            40 => "====      |".colorize(:green), 
+            30 => "===       |".colorize(:red), 
+            20 => "==        |".colorize(:red), 
+            10 => "=         |".colorize(:red)
         }
+        current_health = (@pokemon_2_temp_hp.to_f / @@rival_mon.hp.to_f) * 100
+        temp_health = nil
+        if current_health > 91
+            temp_health = health[100]
+        elsif current_health.between?(80,91)
+            temp_health = health[90]
+        elsif current_health.between?(70,81)
+            temp_health = health[80]
+        elsif current_health.between?(60,71)
+            temp_health = health[70]
+        elsif current_health.between?(50,61)
+            temp_health = health[60]
+        elsif current_health.between?(40,51)
+            temp_health = health[50]
+        elsif current_health.between?(30,41)
+            temp_health = health[40]
+        elsif current_health.between?(20,31)
+            temp_health = health[30]
+        elsif current_health.between?(10,21)
+            temp_health = health[20]
+        elsif current_health.between?( 0,11)
+            temp_health = health[10]
+        end
+        return temp_health
     end
 
     def start
