@@ -26,7 +26,10 @@
 #### Credits
 * All Pokémon names are owned trademarks of Nintendo / GAME FREAK.
 * ASCII Character Artist: Maija Haavisto (MH), @DiamonDie on Twitter.
-
+* gems
+  * Activerecord Reset Pk Sequence
+  * Tty Prompt
+  * Colorize
 
 #### License [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
