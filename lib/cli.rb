@@ -4,6 +4,7 @@ class CommandLineInterface
     prompt = TTY::Prompt.new
     
     def welcome
+        reset_all_ids = Pokemon.all.map{|p| p.trainer_id == nil}
         system("cls") || system("clear")
         puts "Welcome to PokeBattler! Please enter your name."
         puts ""
