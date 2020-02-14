@@ -6,7 +6,7 @@
 * Track your statistics over time!
 
 ### Install
-* Fork and Clone this repo
+* Clone this repo
 * run ```bundle install```
 * run ```rake db:migrate```
 * run ```rake db:seed```
