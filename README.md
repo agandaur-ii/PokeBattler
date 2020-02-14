@@ -8,6 +8,7 @@
 ### Install
 * Clone this repo
 * run ```bundle install```
+   * if there is an error, try deleting the Gemlock file and running ```bundle install``` again
 * run ```rake db:migrate```
 * run ```rake db:seed```
 * run ```ruby bin/run.rb``` from your command line to start the application
