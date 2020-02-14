@@ -8,6 +8,8 @@
 ### Install
 * Fork and Clone this repo
 * run ```bundle install```
+* run ```rake db:migrate```
+* run ```rake db:seed```
 * run ```ruby bin/run.rb``` from your command line to start the application
 
 ### Usage
